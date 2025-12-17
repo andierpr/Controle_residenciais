@@ -1,13 +1,13 @@
 /* Transacoes.css */
 
 /* Container principal */
-.transacoes-page {
+.transacoes-container {
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
 /* Botão principal */
-.transacoes-page > button {
+.transacoes-container > button {
   background-color: var(--cor-primaria, #4a90e2);
   color: white;
   border: none;
@@ -18,7 +18,7 @@
   transition: background 0.3s;
 }
 
-.transacoes-page > button:hover {
+.transacoes-container > button:hover {
   background-color: var(--cor-primaria-hover, #357ABD);
 }
 

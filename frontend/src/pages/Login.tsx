@@ -9,39 +9,28 @@ export default function Login() {
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [loading, setLoading] = useState(false);
-// novos estados
-const [error, setError] = useState<string | null>(null);
+
+  // novo estado (já previsto por você)
+  const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const { login } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setError(null);
 
     try {
       setLoading(true);
       const response = await loginRequest(email, senha);
       login(response.token);
       navigate("/home");
+    } catch {
+      setError("Email ou senha inválidos");
     } finally {
       setLoading(false);
     }
   }
-async function handleSubmit(e: React.FormEvent) {
-  e.preventDefault();
-  setError(null);
-
-  try {
-    setLoading(true);
-    const response = await loginRequest(email, senha);
-    login(response.token);
-    navigate("/home");
-  } catch {
-    setError("Email ou senha inválidos");
-  } finally {
-    setLoading(false);
-  }
-}
 
   return (
     <div className="login-container">
@@ -76,6 +65,9 @@ async function handleSubmit(e: React.FormEvent) {
               </button>
             </div>
           </div>
+
+          {/* Mensagem de erro para o usuário */}
+          {error && <p className="login-error">{error}</p>}
 
           <button className="login-button" type="submit" disabled={loading}>
             {loading ? "Entrando..." : "Entrar"}

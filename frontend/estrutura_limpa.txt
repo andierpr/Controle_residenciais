@@ -1,5 +1,4 @@
 .
-|-- .git
 |-- .gitignore
 |-- estrutura_limpa.txt
 |-- index.html

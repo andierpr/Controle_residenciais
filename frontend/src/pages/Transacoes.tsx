@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import LayoutAutenticado from "../components/LayoutAutenticado";
 import { useTransacoes } from "../hooks/useTransacoes";
 import { usePessoas } from "../hooks/usePessoas";
 import { useCategorias } from "../hooks/useCategorias";
@@ -79,100 +80,104 @@ export const Transacoes: React.FC = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="transacoes-container">
-      <button onClick={() => openModal()}>Nova Transação</button>
+    <LayoutAutenticado>
+      <h1>Transações</h1>
 
-      <table className="table-transacoes">
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th>Valor</th>
-            <th>Tipo</th>
-            <th>Pessoa</th>
-            <th>Categoria</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transacoes.map(t => {
-            const pessoa = pessoas.find(p => p.id === t.pessoaId);
-            const categoria = categorias.find(c => c.id === t.categoriaId);
-            return (
-              <tr key={t.id}>
-                <td>{t.descricao}</td>
-                <td>{t.valor.toFixed(2)}</td>
-                <td>{t.tipo}</td>
-                <td>{pessoa ? pessoa.nome : "N/A"}</td>
-                <td>{categoria ? categoria.descricao : "N/A"}</td>
-                <td>
-                  <button onClick={() => openModal(t)}>Editar</button>
-                  <button onClick={() => deletarTransacao(t.id)}>Excluir</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="transacoes-container">
+        <button onClick={() => openModal()}>Nova Transação</button>
 
-      {showModal && (
-        <div className="modal-backdrop">
-          <div className="modal">
-            <h2>{editId ? "Editar Transação" : "Nova Transação"}</h2>
+        <table className="table-transacoes">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Tipo</th>
+              <th>Pessoa</th>
+              <th>Categoria</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transacoes.map(t => {
+              const pessoa = pessoas.find(p => p.id === t.pessoaId);
+              const categoria = categorias.find(c => c.id === t.categoriaId);
+              return (
+                <tr key={t.id}>
+                  <td>{t.descricao}</td>
+                  <td>{t.valor.toFixed(2)}</td>
+                  <td>{t.tipo}</td>
+                  <td>{pessoa ? pessoa.nome : "N/A"}</td>
+                  <td>{categoria ? categoria.descricao : "N/A"}</td>
+                  <td>
+                    <button onClick={() => openModal(t)}>Editar</button>
+                    <button onClick={() => deletarTransacao(t.id)}>Excluir</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
 
-            <input
-              type="text"
-              placeholder="Descrição"
-              value={form.descricao}
-              onChange={e => setForm({ ...form, descricao: e.target.value })}
-            />
-            <input
-              type="number"
-              placeholder="Valor"
-              value={form.valor}
-              onChange={e => setForm({ ...form, valor: Number(e.target.value) || 0 })}
-            />
+        {showModal && (
+          <div className="modal-backdrop">
+            <div className="modal">
+              <h2>{editId ? "Editar Transação" : "Nova Transação"}</h2>
 
-            <select
-              value={form.tipo}
-              onChange={e => setForm({ ...form, tipo: e.target.value as "receita" | "despesa" })}
-            >
-              <option value="receita">Receita</option>
-              <option value="despesa">Despesa</option>
-            </select>
+              <input
+                type="text"
+                placeholder="Descrição"
+                value={form.descricao}
+                onChange={e => setForm({ ...form, descricao: e.target.value })}
+              />
+              <input
+                type="number"
+                placeholder="Valor"
+                value={form.valor}
+                onChange={e => setForm({ ...form, valor: Number(e.target.value) || 0 })}
+              />
 
-            <select
-              value={form.pessoaId}
-              onChange={e => setForm({ ...form, pessoaId: Number(e.target.value) })}
-            >
-              <option value={0}>Selecione uma pessoa</option>
-              {pessoas.map(p => (
-                <option key={p.id} value={p.id}>
-                  {p.nome} ({p.idade} anos)
-                </option>
-              ))}
-            </select>
+              <select
+                value={form.tipo}
+                onChange={e => setForm({ ...form, tipo: e.target.value as "receita" | "despesa" })}
+              >
+                <option value="receita">Receita</option>
+                <option value="despesa">Despesa</option>
+              </select>
 
-            <select
-              value={form.categoriaId}
-              onChange={e => setForm({ ...form, categoriaId: Number(e.target.value) })}
-            >
-              <option value={0}>Selecione uma categoria</option>
-              {categorias
-                .filter(c => c.finalidade === form.tipo || c.finalidade === "ambas" || c.id === form.categoriaId)
-                .map(c => (
-                  <option key={c.id} value={c.id}>
-                    {c.descricao}
+              <select
+                value={form.pessoaId}
+                onChange={e => setForm({ ...form, pessoaId: Number(e.target.value) })}
+              >
+                <option value={0}>Selecione uma pessoa</option>
+                {pessoas.map(p => (
+                  <option key={p.id} value={p.id}>
+                    {p.nome} ({p.idade} anos)
                   </option>
                 ))}
-            </select>
+              </select>
 
-            <div className="modal-actions">
-              <button onClick={handleSave}>Salvar</button>
-              <button onClick={() => setShowModal(false)}>Cancelar</button>
+              <select
+                value={form.categoriaId}
+                onChange={e => setForm({ ...form, categoriaId: Number(e.target.value) })}
+              >
+                <option value={0}>Selecione uma categoria</option>
+                {categorias
+                  .filter(c => c.finalidade === form.tipo || c.finalidade === "ambas" || c.id === form.categoriaId)
+                  .map(c => (
+                    <option key={c.id} value={c.id}>
+                      {c.descricao}
+                    </option>
+                  ))}
+              </select>
+
+              <div className="modal-actions">
+                <button onClick={handleSave}>Salvar</button>
+                <button onClick={() => setShowModal(false)}>Cancelar</button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </LayoutAutenticado>
   );
 };
