@@ -1,0 +1,168 @@
+/* Transacoes.css */
+
+/* Container principal */
+.transacoes-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Botão principal */
+.transacoes-page > button {
+  background-color: var(--cor-primaria, #4a90e2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.transacoes-page > button:hover {
+  background-color: var(--cor-primaria-hover, #357ABD);
+}
+
+/* Tabela de transações */
+.table-transacoes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.table-transacoes th,
+.table-transacoes td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.table-transacoes th {
+  background-color: var(--cor-fundo-header, #f2f2f2);
+}
+
+.table-transacoes tr:nth-child(even) {
+  background-color: var(--cor-fundo-linha, #fafafa);
+}
+
+.table-transacoes tr:hover {
+  background-color: var(--cor-hover-linha, #e6f2ff);
+}
+
+/* Botões da tabela */
+.table-transacoes button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.table-transacoes button:hover {
+  opacity: 0.8;
+}
+
+.table-transacoes button:first-child {
+  background-color: var(--cor-editar, #f0ad4e);
+  color: white;
+}
+
+.table-transacoes button:last-child {
+  background-color: var(--cor-excluir, #d9534f);
+  color: white;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal container */
+.modal {
+  background-color: var(--cor-fundo, #fff);
+  padding: 25px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Inputs e selects do modal */
+.modal input,
+.modal select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal input:focus,
+.modal select:focus {
+  outline: none;
+  border-color: var(--cor-primaria, #4a90e2);
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+/* Ações do modal */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-actions button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.modal-actions button:first-child {
+  background-color: var(--cor-primaria, #4a90e2);
+  color: white;
+}
+
+.modal-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-actions button:hover {
+  opacity: 0.9;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .modal {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .table-transacoes th,
+  .table-transacoes td {
+    padding: 8px;
+  }
+}
