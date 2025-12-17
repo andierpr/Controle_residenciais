@@ -1,0 +1,172 @@
+/* ==============================
+   Global da página
+============================== */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--cor-texto, #333);
+}
+
+/* ==============================
+   Botões
+============================== */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* Botão principal */
+button.btn-primary {
+  background-color: var(--cor-primaria, #4f46e5);
+  color: #fff;
+}
+
+/* Botão secundário */
+button.btn-secondary {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* Botões da tabela */
+button {
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* ==============================
+   Tabela de Categorias
+============================== */
+.table-categorias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.table-categorias th,
+.table-categorias td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.table-categorias th {
+  background-color: var(--cor-primaria, #4f46e5);
+  color: #fff;
+}
+
+.table-categorias tr:last-child td {
+  border-bottom: none;
+}
+
+.table-categorias tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* ==============================
+   Modal
+============================== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.modal input:focus,
+.modal select:focus {
+  outline: none;
+  border-color: var(--cor-primaria, #4f46e5);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* ==============================
+   Erros
+============================== */
+.error {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+/* ==============================
+   Animação
+============================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   Responsividade
+============================== */
+@media (max-width: 500px) {
+  .modal {
+    padding: 1.5rem;
+    width: 90%;
+  }
+
+  .table-categorias th,
+  .table-categorias td {
+    padding: 0.5rem;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

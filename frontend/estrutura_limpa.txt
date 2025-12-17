@@ -1,0 +1,66 @@
+.
+|-- .git
+|-- .gitignore
+|-- estrutura_limpa.txt
+|-- index.html
+|-- node_modules
+|-- package-lock.json
+|-- package.json
+|-- public
+|   |-- favicon.ico
+|   |-- logo192.png
+|   |-- logo512.png
+|   |-- manifest.json
+|   |-- robots.txt
+|-- README.md
+|-- src
+|   |-- api
+|   |   |-- api.tsx
+|   |   |-- authService.ts
+|   |   |-- categoriasService.tsx
+|   |   |-- pessoasService.tsx
+|   |   |-- transacoesService.tsx
+|   |-- App.css
+|   |-- App.test.tsx
+|   |-- App.tsx
+|   |-- components
+|   |   |-- css
+|   |   |   |-- LayoutAutenticado.css
+|   |   |   |-- Navbar.css
+|   |   |   |-- Sidebar.css
+|   |   |-- LayoutAutenticado.tsx
+|   |   |-- Navbar.tsx
+|   |   |-- ProtectedRoute.tsx
+|   |   |-- Sidebar.tsx
+|   |-- context
+|   |   |-- AuthContext.tsx
+|   |-- hooks
+|   |   |-- useCategorias.ts
+|   |   |-- usePessoas.ts
+|   |   |-- useTransacoes.ts
+|   |-- index.css
+|   |-- index.tsx
+|   |-- logo.svg
+|   |-- main.tsx
+|   |-- pages
+|   |   |-- Categorias.tsx
+|   |   |-- Home.tsx
+|   |   |-- Login.tsx
+|   |   |-- NotFound.tsx
+|   |   |-- Pessoas.tsx
+|   |   |-- Transacoes.tsx
+|   |-- react-app-env.d.ts
+|   |-- reportWebVitals.ts
+|   |-- setupTests.ts
+|   |-- styles
+|   |   |-- Categorias.css
+|   |   |-- global.css
+|   |   |-- Login.css
+|   |   |-- Pessoas.css
+|   |   |-- Transacoes.css
+|   |-- types
+|   |   |-- Categoria.ts
+|   |   |-- Pessoa.ts
+|   |   |-- transacao.ts
+|-- tsconfig.json
+|-- vite.config.ts
