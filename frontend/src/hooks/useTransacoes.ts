@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import transacoesService, { CreateTransacaoDto } from "../api/transacoesService";
 import { Transacao } from "../types/transacao";
-
 interface UseTransacoesReturn {
   transacoes: Transacao[];
   loading: boolean;
