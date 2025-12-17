@@ -1,0 +1,35 @@
+# =========================
+# GastosApi - Frontend
+# =========================
+node_modules/
+dist/
+.env
+.env.local
+.env.development
+.env.production
+
+# =========================
+# GastosApi - .NET8
+# =========================
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.pdb
+*.db
+*.db-shm
+*.db-wal
+
+# =========================
+# IDEs
+# =========================
+.vscode/
+.idea/
+.vs/
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
