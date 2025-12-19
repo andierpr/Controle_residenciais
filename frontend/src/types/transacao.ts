@@ -1,18 +1,19 @@
 export interface Transacao {
   id: number;
-  descricao: string;
-  valor: number;
-  tipo: "despesa" | "receita";
-  dataTransacao: string;
   pessoaId: number;
+  pessoaNome: string;
   categoriaId: number;
+  categoriaDescricao: string;
+  valor: number;
+  tipo: "receita" | "despesa";
+  dataTransacao: string;
+  descricao?: string;
 }
 
-// Tipo usado para criar ou atualizar transações (sem o id)
 export interface CreateTransacao {
   descricao: string;
   valor: number;
-  tipo: "despesa" | "receita";
+  tipo: "receita" | "despesa";
   pessoaId: number;
   categoriaId: number;
 }

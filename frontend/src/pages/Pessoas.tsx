@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LayoutAutenticado from "../components/LayoutAutenticado";
 import { usePessoas } from "../hooks/usePessoas";
+
 import "../styles/Pessoas.css";
 
 export const Pessoas = () => {

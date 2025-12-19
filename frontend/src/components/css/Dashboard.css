@@ -1,0 +1,17 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.dashboard-card {
+  background-color: var(--cor-fundo-card);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.dashboard-card h3 {
+  margin-bottom: 8px;
+}

@@ -10,7 +10,7 @@
 }
 
 .sidebar h2 {
-  font-size: 20px;
+  font-size: 1.25rem;
   margin-bottom: 24px;
   text-align: center;
 }
@@ -39,7 +39,6 @@
   color: #fff;
 }
 
-/* Mobile: mantém sidebar vertical, evita quebrar o layout */
 @media (max-width: 768px) {
   .sidebar {
     width: 200px;

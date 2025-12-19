@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import LayoutAutenticado from "../components/LayoutAutenticado";
 import "../styles/global.css";
+import "../components/css/Dashboard.css";
+
 
 export default function Home() {
   return (

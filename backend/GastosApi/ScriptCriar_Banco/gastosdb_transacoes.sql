@@ -3,7 +3,6 @@
 -- Host: localhost    Database: gastosdb
 -- ------------------------------------------------------
 -- Server version	8.0.25
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -16,18 +15,26 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `categorias`
+-- Table structure for table `transacoes`
 --
 
-DROP TABLE IF EXISTS `categorias`;
+DROP TABLE IF EXISTS `transacoes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categorias` (
+CREATE TABLE `transacoes` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `Descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Finalidade` int NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `Descricao` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Valor` decimal(65,30) NOT NULL,
+  `Tipo` int NOT NULL,
+  `PessoaId` int NOT NULL,
+  `CategoriaId` int NOT NULL,
+  `DataTransacao` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`),
+  KEY `IX_Transacoes_CategoriaId` (`CategoriaId`),
+  KEY `IX_Transacoes_PessoaId` (`PessoaId`),
+  CONSTRAINT `FK_Transacoes_Categorias_CategoriaId` FOREIGN KEY (`CategoriaId`) REFERENCES `categorias` (`Id`) ON DELETE RESTRICT,
+  CONSTRAINT `FK_Transacoes_Pessoas_PessoaId` FOREIGN KEY (`PessoaId`) REFERENCES `pessoas` (`Id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -39,4 +46,4 @@ CREATE TABLE `categorias` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-17 15:07:22
+-- Dump completed on 2025-12-17 15:07:21

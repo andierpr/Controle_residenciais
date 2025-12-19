@@ -68,5 +68,23 @@ namespace GastosApi.Controllers
 
             return NoContent();
         }
+
+        // NOVO ENDPOINT: Totais por Pessoa
+        // GET: api/transacoes/totais-por-pessoa
+        [HttpGet("totais-por-pessoa")]
+        public async Task<ActionResult<IEnumerable<PessoaTotaisDto>>> TotaisPorPessoa()
+        {
+            var totais = await _service.TotaisPorPessoaAsync();
+            return Ok(totais);
+        }
+
+        // NOVO ENDPOINT: Totais por Categoria
+        // GET: api/transacoes/totais-por-categoria
+        [HttpGet("totais-por-categoria")]
+        public async Task<ActionResult<IEnumerable<CategoriaTotaisDto>>> TotaisPorCategoria()
+        {
+            var totais = await _service.TotaisPorCategoriaAsync();
+            return Ok(totais);
+        }
     }
 }

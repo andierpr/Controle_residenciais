@@ -3,7 +3,6 @@
 -- Host: localhost    Database: gastosdb
 -- ------------------------------------------------------
 -- Server version	8.0.25
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -16,17 +15,20 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `__efmigrationshistory`
+-- Table structure for table `usuarios`
 --
-
-DROP TABLE IF EXISTS `__efmigrationshistory`;
+DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `__efmigrationshistory` (
-  `MigrationId` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ProductVersion` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`MigrationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `usuarios` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Email` varchar(150) NOT NULL,
+  `SenhaHash` varchar(200) NOT NULL,
+  `PessoaId` int NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `FK_Usuarios_Pessoas` (`PessoaId`),
+  CONSTRAINT `FK_Usuarios_Pessoas` FOREIGN KEY (`PessoaId`) REFERENCES `pessoas` (`Id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -38,4 +40,4 @@ CREATE TABLE `__efmigrationshistory` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-17 15:07:21
+-- Dump completed on 2025-12-17 15:07:22

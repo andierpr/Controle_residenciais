@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { Categorias } from "./pages/Categorias";
 import { Pessoas } from "./pages/Pessoas";
-import  {Transacoes} from "./pages/Transacoes";
+import  Transacoes from "./pages/Transacoes";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {

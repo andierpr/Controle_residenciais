@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LayoutAutenticado from "../components/LayoutAutenticado";
 import { useCategorias } from "../hooks/useCategorias";
+
 import "../styles/Categorias.css";
 
 export const Categorias = () => {

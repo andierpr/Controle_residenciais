@@ -28,9 +28,14 @@
 |   |   |   |-- Navbar.css
 |   |   |   |-- Sidebar.css
 |   |   |-- LayoutAutenticado.tsx
+|   |   |-- ModalTransacao.tsx
 |   |   |-- Navbar.tsx
 |   |   |-- ProtectedRoute.tsx
 |   |   |-- Sidebar.tsx
+|   |   |-- TabelaTotais.tsx
+|   |   |-- TabelaTotaisCategoria.tsx
+|   |   |-- TabelaTotaisPessoa.tsx
+|   |   |-- TabelaTransacoes.tsx
 |   |-- context
 |   |   |-- AuthContext.tsx
 |   |-- hooks
@@ -60,6 +65,8 @@
 |   |-- types
 |   |   |-- Categoria.ts
 |   |   |-- Pessoa.ts
-|   |   |-- transacao.ts
+|   |   |-- TotaisCategoria.ts
+|   |   |-- TotaisPessoa.ts
+|   |   |-- Transacao.ts
 |-- tsconfig.json
 |-- vite.config.ts

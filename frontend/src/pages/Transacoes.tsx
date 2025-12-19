@@ -1,183 +1,139 @@
-import React, { useState } from "react";
-import LayoutAutenticado from "../components/LayoutAutenticado";
+import { useState } from "react";
 import { useTransacoes } from "../hooks/useTransacoes";
-import { usePessoas } from "../hooks/usePessoas";
-import { useCategorias } from "../hooks/useCategorias";
-import { Transacao } from "../types/transacao";
+import ModalTransacao from "../components/ModalTransacao";
+import TabelaTransacoes from "../components/TabelaTransacoes";
+import { TabelaTotais } from "../components/TabelaTotais";
+import { TabelaTotaisCategoria } from "../components/TabelaTotaisCategoria";
+import LayoutAutenticado from "../components/LayoutAutenticado";
+
 import "../styles/Transacoes.css";
+import { Transacao, CreateTransacao } from "../types/Transacao";
 
-export const Transacoes: React.FC = () => {
-  const { transacoes, loading, error, criarTransacao, editarTransacao, deletarTransacao } = useTransacoes();
-  const { pessoas, loading: loadingPessoas } = usePessoas();
-  const { categorias, loading: loadingCategorias } = useCategorias();
+const Transacoes = () => {
+  const {
+    transacoes,
+    totaisPessoa,
+    totaisCategoria,
+    totalReceitas,
+    totalDespesas,
+    saldo,
+    loading,
+    error,
+    adicionarTransacao,
+    editarTransacao,
+    deletarTransacao,
+  } = useTransacoes();
 
-  const [showModal, setShowModal] = useState(false);
-  const [editId, setEditId] = useState<number | null>(null);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [idEditando, setIdEditando] = useState<number | null>(null);
+  const [transacaoSelecionada, setTransacaoSelecionada] =
+    useState<CreateTransacao | null>(null);
 
-  const [form, setForm] = useState<{
-    descricao: string;
-    valor: number;
-    tipo: "receita" | "despesa";
-    pessoaId: number;
-    categoriaId: number;
-  }>({
-    descricao: "",
-    valor: 0,
-    tipo: "receita",
-    pessoaId: 0,
-    categoriaId: 0,
-  });
-
-  const openModal = (t?: Transacao) => {
-    if (t) {
-      setEditId(t.id);
-      setForm({
-        descricao: t.descricao,
-        valor: t.valor,
-        tipo: t.tipo,
-        pessoaId: t.pessoaId,
-        categoriaId: t.categoriaId,
-      });
-    } else {
-      setEditId(null);
-      setForm({
-        descricao: "",
-        valor: 0,
-        tipo: "receita",
-        pessoaId: 0,
-        categoriaId: 0,
-      });
-    }
-    setShowModal(true);
+  /* =========================
+     ABRIR MODAL PARA NOVA TRANSAÇÃO
+  ========================= */
+  const handleAdicionar = () => {
+    setIdEditando(null);
+    setTransacaoSelecionada(null);
+    setModalAberto(true);
   };
 
-  const handleSave = async () => {
-    const pessoa = pessoas.find(p => p.id === form.pessoaId);
-    const categoria = categorias.find(c => c.id === form.categoriaId);
+  /* =========================
+     ABRIR MODAL PARA EDIÇÃO
+  ========================= */
+  const handleEditar = (transacao: Transacao) => {
+    setIdEditando(transacao.id);
+    setTransacaoSelecionada({
+      descricao: transacao.descricao ?? "",
+      valor: transacao.valor,
+      tipo: transacao.tipo,
+      pessoaId: transacao.pessoaId,
+      categoriaId: transacao.categoriaId,
+    });
+    setModalAberto(true);
+  };
 
-    if (!form.descricao.trim()) return alert("Descrição é obrigatória.");
-    if (form.valor <= 0) return alert("O valor deve ser maior que zero.");
-    if (!pessoa) return alert("Selecione uma pessoa válida.");
-    if (!categoria) return alert("Selecione uma categoria válida.");
-    if (pessoa.idade < 18 && form.tipo === "receita")
-      return alert("Pessoa menor de idade só pode ter despesas.");
-    if (categoria.finalidade !== form.tipo && categoria.finalidade !== "ambas")
-      return alert("Categoria selecionada não é compatível com o tipo da transação.");
+  /* =========================
+     SALVAR TRANSAÇÃO (CRIAR OU EDITAR)
+  ========================= */
+  const handleSave = async (data: CreateTransacao) => {
+    try {
+      if (idEditando !== null) {
+        await editarTransacao(idEditando, data);
+      } else {
+        await adicionarTransacao(data);
+      }
+      setModalAberto(false);
+      setIdEditando(null);
+      setTransacaoSelecionada(null);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Erro ao salvar transação.";
+      alert(msg);
+    }
+  };
+
+  /* =========================
+     DELETAR TRANSAÇÃO
+  ========================= */
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Deseja realmente excluir esta transação?")) return;
 
     try {
-      if (editId !== null) {
-        await editarTransacao(editId, form);
-      } else {
-        await criarTransacao(form);
-      }
-      setShowModal(false);
-    } catch {
-      // erro já tratado no hook
+      await deletarTransacao(id);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Erro ao deletar transação.";
+      alert(msg);
     }
   };
-
-  if (loading || loadingPessoas || loadingCategorias) return <p>Carregando...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <LayoutAutenticado>
-      <h1>Transações</h1>
+      <div className="transacoes-page">
+        <h1>Transações</h1>
 
-      <div className="transacoes-container">
-        <button onClick={() => openModal()}>Nova Transação</button>
+        {loading && <p>Carregando...</p>}
+        {error && <p className="error">{error}</p>}
 
-        <table className="table-transacoes">
-          <thead>
-            <tr>
-              <th>Descrição</th>
-              <th>Valor</th>
-              <th>Tipo</th>
-              <th>Pessoa</th>
-              <th>Categoria</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transacoes.map(t => {
-              const pessoa = pessoas.find(p => p.id === t.pessoaId);
-              const categoria = categorias.find(c => c.id === t.categoriaId);
-              return (
-                <tr key={t.id}>
-                  <td>{t.descricao}</td>
-                  <td>{t.valor.toFixed(2)}</td>
-                  <td>{t.tipo}</td>
-                  <td>{pessoa ? pessoa.nome : "N/A"}</td>
-                  <td>{categoria ? categoria.descricao : "N/A"}</td>
-                  <td>
-                    <button onClick={() => openModal(t)}>Editar</button>
-                    <button onClick={() => deletarTransacao(t.id)}>Excluir</button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <button onClick={handleAdicionar} className="btn btn-primary mb-3">
+          Adicionar Transação
+        </button>
 
-        {showModal && (
-          <div className="modal-backdrop">
-            <div className="modal">
-              <h2>{editId ? "Editar Transação" : "Nova Transação"}</h2>
-
-              <input
-                type="text"
-                placeholder="Descrição"
-                value={form.descricao}
-                onChange={e => setForm({ ...form, descricao: e.target.value })}
-              />
-              <input
-                type="number"
-                placeholder="Valor"
-                value={form.valor}
-                onChange={e => setForm({ ...form, valor: Number(e.target.value) || 0 })}
-              />
-
-              <select
-                value={form.tipo}
-                onChange={e => setForm({ ...form, tipo: e.target.value as "receita" | "despesa" })}
-              >
-                <option value="receita">Receita</option>
-                <option value="despesa">Despesa</option>
-              </select>
-
-              <select
-                value={form.pessoaId}
-                onChange={e => setForm({ ...form, pessoaId: Number(e.target.value) })}
-              >
-                <option value={0}>Selecione uma pessoa</option>
-                {pessoas.map(p => (
-                  <option key={p.id} value={p.id}>
-                    {p.nome} ({p.idade} anos)
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={form.categoriaId}
-                onChange={e => setForm({ ...form, categoriaId: Number(e.target.value) })}
-              >
-                <option value={0}>Selecione uma categoria</option>
-                {categorias
-                  .filter(c => c.finalidade === form.tipo || c.finalidade === "ambas" || c.id === form.categoriaId)
-                  .map(c => (
-                    <option key={c.id} value={c.id}>
-                      {c.descricao}
-                    </option>
-                  ))}
-              </select>
-
-              <div className="modal-actions">
-                <button onClick={handleSave}>Salvar</button>
-                <button onClick={() => setShowModal(false)}>Cancelar</button>
-              </div>
-            </div>
+        {!loading && (
+          <div className="totais-gerais mb-4">
+            <h3>Totais Gerais</h3>
+            <p>Receitas: {totalReceitas.toFixed(2)}</p>
+            <p>Despesas: {totalDespesas.toFixed(2)}</p>
+            <p className={saldo < 0 ? "saldo-negativo" : ""}>
+              Saldo: {saldo.toFixed(2)}
+            </p>
           </div>
+        )}
+
+        {/* Tabelas de totais */}
+        <TabelaTotais titulo="Totais por Pessoa" totais={totaisPessoa} />
+        <TabelaTotaisCategoria
+          titulo="Totais por Categoria"
+          totais={totaisCategoria}
+        />
+
+        {/* Tabela de transações */}
+        <TabelaTransacoes
+          transacoes={transacoes}
+          onEditar={handleEditar}
+          onDeletar={handleDelete}
+        />
+
+        {/* Modal para criar/editar transações */}
+        {modalAberto && (
+          <ModalTransacao
+            transacao={transacaoSelecionada}
+            onSave={handleSave}
+            onClose={() => setModalAberto(false)}
+          />
         )}
       </div>
     </LayoutAutenticado>
   );
 };
+
+export default Transacoes;

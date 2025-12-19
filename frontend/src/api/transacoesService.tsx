@@ -1,53 +1,96 @@
-import axios from "axios";
-import { Transacao } from "../types/transacao";
+import axios, { AxiosError } from "axios";
+import { Transacao, CreateTransacao } from "../types/Transacao";
+import { TotaisPessoa } from "../types/TotaisPessoa";
+import { TotaisCategoria } from "../types/TotaisCategoria";
 
 const API_URL = "https://localhost:7243/api/transacoes";
 
-export interface CreateTransacaoDto {
-  descricao: string;
-  valor: number;
-  tipo: "receita" | "despesa";
-  pessoaId: number;
-  categoriaId: number;
-}
-
 const transacoesService = {
-  listar: async (): Promise<Transacao[]> => {
+  /* =========================
+     🔄 LISTAR
+  ========================= */
+  async listar(): Promise<Transacao[]> {
     try {
       const res = await axios.get<Transacao[]>(API_URL);
       return res.data;
-    } catch (err: any) {
-      console.error("Erro ao listar transações:", err);
-      throw new Error(err.response?.data?.message || "Erro ao listar transações.");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      throw new Error(error.response?.data?.message ?? "Erro ao listar transações");
     }
   },
 
-  adicionar: async (dto: CreateTransacaoDto): Promise<Transacao> => {
+  /* =========================
+     🔍 OBTER POR ID
+  ========================= */
+  async obterPorId(id: number): Promise<Transacao> {
+    try {
+      const res = await axios.get<Transacao>(`${API_URL}/${id}`);
+      return res.data;
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      throw new Error(error.response?.data?.message ?? "Erro ao buscar transação");
+    }
+  },
+
+  /* =========================
+     ➕ CRIAR
+  ========================= */
+  async criar(dto: CreateTransacao): Promise<Transacao> {
     try {
       const res = await axios.post<Transacao>(API_URL, dto);
       return res.data;
-    } catch (err: any) {
-      console.error("Erro ao adicionar transação:", err);
-      throw new Error(err.response?.data?.message || "Erro ao adicionar transação.");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      throw new Error(error.response?.data?.message ?? "Erro ao criar transação");
     }
   },
 
-  atualizar: async (id: number, dto: CreateTransacaoDto): Promise<Transacao> => {
+  /* =========================
+     ✏️ ATUALIZAR
+  ========================= */
+  async atualizar(id: number, dto: CreateTransacao): Promise<Transacao> {
     try {
       const res = await axios.put<Transacao>(`${API_URL}/${id}`, dto);
       return res.data;
-    } catch (err: any) {
-      console.error("Erro ao atualizar transação:", err);
-      throw new Error(err.response?.data?.message || "Erro ao atualizar transação.");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      throw new Error(error.response?.data?.message ?? "Erro ao atualizar transação");
     }
   },
 
-  deletar: async (id: number): Promise<void> => {
+  /* =========================
+     🗑️ DELETAR
+  ========================= */
+  async deletar(id: number): Promise<void> {
     try {
       await axios.delete(`${API_URL}/${id}`);
-    } catch (err: any) {
-      console.error("Erro ao deletar transação:", err);
-      throw new Error(err.response?.data?.message || "Erro ao deletar transação.");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      throw new Error(error.response?.data?.message ?? "Erro ao deletar transação");
+    }
+  },
+
+  /* =========================
+     📊 TOTAIS POR PESSOA
+  ========================= */
+  async totaisPorPessoa(): Promise<TotaisPessoa[]> {
+    try {
+      const res = await axios.get<TotaisPessoa[]>(`${API_URL}/totais-por-pessoa`);
+      return res.data;
+    } catch {
+      return [];
+    }
+  },
+
+  /* =========================
+     📊 TOTAIS POR CATEGORIA
+  ========================= */
+  async totaisPorCategoria(): Promise<TotaisCategoria[]> {
+    try {
+      const res = await axios.get<TotaisCategoria[]>(`${API_URL}/totais-por-categoria`);
+      return res.data;
+    } catch {
+      return [];
     }
   },
 };
